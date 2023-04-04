@@ -1,0 +1,102 @@
+
+package hotelmanagement;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+/**
+ *
+ * @author Manan
+ */
+public class DashBoard extends JFrame implements ActionListener{
+    
+    JMenuItem employee,room,driver,reception;
+            
+    DashBoard(){
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+       // setBounds(0,0,1550,1000);
+        setLayout(null);
+        
+        //ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("icons/third.jpg"));
+        ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("proj/3.png"));
+        Image i2=i1.getImage().getScaledInstance(1550,1000,Image.SCALE_DEFAULT);
+        ImageIcon i3=new ImageIcon(i2);
+        JLabel image=new JLabel(i3);
+        image.setBounds(0,0,1550,1000);
+        add(image);
+        
+        //JLabel text=new JLabel("Taj Group Welcomes You");
+        JLabel text=new JLabel("Welcome To Bihar Group");
+        text.setBounds(500,80,1000,60);
+        text.setFont(new Font("Tohoma", Font.BOLD, 46));
+        //text.setForeground(Color.white);
+        text.setForeground(Color.magenta);
+        image.add(text);
+        
+        JMenuBar mb=new JMenuBar();
+        mb.setBounds(0,0,1550,20);
+        mb.setBackground(Color.lightGray);
+        image.add(mb);
+        
+        JMenu hotel=new JMenu("Hotel ManageMent");
+        hotel.setBackground(Color.WHITE);
+        hotel.setForeground(Color.red);
+        mb.add(hotel);
+        
+        reception=new JMenuItem("Reception");
+        reception.addActionListener(this);
+        hotel.add(reception);
+        
+        JMenu admin=new JMenu("Admin");
+        admin.setBackground(Color.WHITE);
+        admin.setForeground(Color.blue);
+        mb.add(admin);
+        
+        employee=new JMenuItem("Add Employee");
+        employee.addActionListener(this);
+        admin.add(employee);
+        
+        room=new JMenuItem("Add Room");
+        room.addActionListener(this);
+        admin.add(room);
+        
+        driver=new JMenuItem("Add Drivers");
+        driver.addActionListener(this);
+        admin.add(driver);
+        
+        
+        
+        
+        
+        setVisible(true);
+    }
+    
+    public static void main(String[] args){
+        new DashBoard();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==employee){
+            new AddEmployee();
+        }
+        else if(e.getSource()==room){
+            new AddRoom();
+        }
+        else if(e.getSource()==driver){
+            new AddDriver();
+        }
+        else if(e.getSource()==reception){
+            new Reception();
+        }
+    }
+}
