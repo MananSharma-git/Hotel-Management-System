@@ -1,0 +1,76 @@
+
+package hotelmanagement;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+/**
+ *
+ * @author Manan
+ */
+public class HotelManagement extends JFrame implements ActionListener {
+
+    HotelManagement(){
+        //setSize(1366,565); 
+        //setLocation(100,100);
+        setBounds(100,100,1366,565);//use in the place of above two methods 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("icons/first.jpg"));//Dusri image dalo
+        ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("proj/first1.png"));//Dusri image dalo
+
+        JLabel image=new JLabel(i1); //by default border layout is used which have center property 
+        add(image);
+        
+        JLabel text=new JLabel("Hotel Management System");
+        text.setBounds(10,450,700,60);
+        text.setForeground(Color.white);
+        text.setFont(new Font("serif",Font.BOLD,50));
+        image.add(text);
+        
+        JButton next=new JButton("Next");
+        next.setBounds(1150,450,150,50);
+        next.setBackground(Color.white);
+        next.setForeground(Color.black);
+        next.addActionListener(this);
+        next.setFont(new Font("serif", Font.BOLD, 20));
+        image.add(next);
+        
+        
+        
+        setVisible(true);
+        
+        while(true){
+            text.setVisible(false);
+            try{
+                Thread.sleep(600);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            text.setVisible(true);
+            try{
+                Thread.sleep(600);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        } 
+    }
+    
+    public static void main(String[] args) {
+        new HotelManagement();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        setVisible(false);
+        new login();
+    }
+    
+}
