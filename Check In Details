@@ -1,0 +1,190 @@
+
+package hotelmanagement;
+
+/**
+ *
+ * @author Manan
+ */
+import java.awt.*;
+
+import java.sql.*;	
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class UpdateCheck extends JFrame implements ActionListener {
+	private JPanel contentPane;
+	private JTextField room;
+	private JTextField txt_Room;
+	private JTextField name;
+	private JTextField txt_Date;
+	private JTextField amount;
+	private JTextField txt_Payment;
+        JButton btnUpdate,btnExit,btnCheck;
+
+        Choice c1, c2;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+            new UpdateCheck();
+	}
+        
+	
+	UpdateCheck() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                setBounds(300,200,980,500);
+		setLayout(null);
+
+		JLabel lblUpdateCheckStatus = new JLabel("Check-In Details");
+		lblUpdateCheckStatus.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblUpdateCheckStatus.setBounds(124, 11, 222, 25);
+		add(lblUpdateCheckStatus);
+
+                //ImageIcon i1  = new ImageIcon(ClassLoader.getSystemResource("icons/nine.jpg"));
+                ImageIcon i1  = new ImageIcon(ClassLoader.getSystemResource("proj/9.png"));
+                JLabel l1 = new JLabel(i1);
+                l1.setBounds(450,70,476,270);
+                add(l1);
+
+		JLabel lblNewLabel = new JLabel("ID:");
+		lblNewLabel.setBounds(25, 88, 46, 14);
+		add(lblNewLabel);
+
+                c1 = new Choice();
+                try{
+                    Conn c = new Conn();
+                    ResultSet rs = c.st.executeQuery("select * from customer");
+                    while(rs.next()){
+                        c1.add(rs.getString("number"));    
+                    }
+                }catch(Exception e){ }
+                c1.setBounds(248, 85, 140, 20);
+		add(c1);
+
+		JLabel lblNewLabel_1 = new JLabel("Room Number :");
+		lblNewLabel_1.setBounds(25, 129, 107, 14);
+		add(lblNewLabel_1);
+
+
+                room = new JTextField();
+                room.setBounds(248, 126, 140, 20);
+		add(room);
+
+		JLabel lblNewLabel_2 = new JLabel("Name : ");
+		lblNewLabel_2.setBounds(25, 174, 97, 14);
+		add(lblNewLabel_2);
+
+		JLabel lblNewLabel_3 = new JLabel("Checked-in :");
+		lblNewLabel_3.setBounds(25, 216, 107, 14);
+		add(lblNewLabel_3);
+
+		JLabel lblNewLabel_4 = new JLabel("Amount Paid (Rs) : ");
+		lblNewLabel_4.setBounds(25, 261, 107, 14);
+		add(lblNewLabel_4);
+
+		JLabel lblNewLabel_5 = new JLabel("Pending Amount (Rs) : ");
+		lblNewLabel_5.setBounds(25, 302, 150, 14);
+		add(lblNewLabel_5);
+
+
+		name = new JTextField();
+		name.setBounds(248, 171, 140, 20);
+		name.setColumns(10);
+		add(name);
+
+		txt_Date = new JTextField();
+		txt_Date.setBounds(248, 216, 140, 20);
+		txt_Date.setColumns(10);
+		add(txt_Date);
+
+		amount = new JTextField();
+		amount.setBounds(248, 258, 140, 20);
+		amount.setColumns(10);
+		add(amount);
+
+		txt_Payment = new JTextField();
+		txt_Payment.setBounds(248, 299, 140, 20);
+		txt_Payment.setColumns(10);
+		add(txt_Payment);
+
+		btnUpdate = new JButton("Update");
+		btnUpdate.setBounds(168, 378, 89, 23);
+                btnUpdate.setBackground(Color.blue);
+                btnUpdate.setForeground(Color.WHITE);
+                btnUpdate.addActionListener(this);
+		add(btnUpdate);
+
+		btnExit = new JButton("Back");
+		btnExit.setBounds(281, 378, 89, 23);
+                btnExit.setBackground(Color.blue);
+                btnExit.setForeground(Color.WHITE);
+                btnExit.addActionListener(this);
+		add(btnExit);
+
+		btnCheck = new JButton("Check");
+		btnCheck.setBounds(56, 378, 89, 23);
+                btnCheck.setBackground(Color.blue);
+                btnCheck.setForeground(Color.WHITE);
+                btnCheck.addActionListener(this);
+		add(btnCheck);
+
+                setBackground(Color.WHITE);
+                setVisible(true);
+	}
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==btnExit){
+            setVisible(false);
+            new Reception();
+        }
+        else if(e.getSource()==btnUpdate){
+            try{
+                Conn c = new Conn();
+
+                String s1 = c1.getSelectedItem();
+                String s2 = room.getText(); //room_number;    
+                String s3 = name.getText(); //name    
+                String s4 = txt_Date.getText(); //status;    
+                String s5 = amount.getText(); //deposit    
+
+                c.st.executeUpdate("update customer set room1 = '"+s2+"', name = '"+s3+"', time = '"+s4+"', deposite = '"+s5+"' where number = '"+s1+"'");
+
+                JOptionPane.showMessageDialog(null, "Data Updated Successfully");
+                setVisible(false);
+                new Reception();
+            }
+            catch(Exception ee){
+                System.out.println(ee);
+            }		
+        }
+        else if(e.getSource()==btnCheck){
+            String s1 = c1.getSelectedItem();
+            try{
+                Conn c = new Conn();
+                ResultSet rs1 = c.st.executeQuery("select * from customer where number = '"+s1+"'");
+
+                while(rs1.next()){
+                    room.setText(rs1.getString("room1"));    
+                    name.setText(rs1.getString("name"));    
+                    txt_Date.setText(rs1.getString("time"));    
+                    amount.setText(rs1.getString("deposite"));     
+                }
+                ResultSet rs2 = c.st.executeQuery("select * from room where room     = "+room.getText());
+                while(rs2.next()){
+                    String price= rs2.getString("price"); 
+                    int amm = Integer.parseInt(price)- Integer.parseInt(amount.getText()); 
+                    txt_Payment.setText("" + amm);
+
+                }
+            }catch(Exception ee){
+                ee.printStackTrace();
+            }
+        }
+    }
+
+}
