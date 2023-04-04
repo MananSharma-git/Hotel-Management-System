@@ -1,0 +1,224 @@
+
+package hotelmanagement;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+/**
+ *
+ * @author Manan
+ */
+public class AddEmployee extends JFrame implements ActionListener {
+    
+    JTextField tfname,tfage,tfsalary,tfmail,tfphone,tfadhar;
+    JRadioButton male,female;
+    JButton submit,back;
+    JComboBox cjob;
+    
+    
+    AddEmployee(){
+        setLayout(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    
+        getContentPane().setBackground(Color.lightGray);
+        setBounds(300,220,850,540);
+        
+        JLabel name=new JLabel("NAME");
+        name.setBounds(60,30,120,30);
+        name.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        add(name);
+        
+        tfname=new JTextField();
+        tfname.setBounds(200,30,150,30);
+        add(tfname);
+        
+        JLabel age=new JLabel("AGE");
+        age.setBounds(60,80,120,30);
+        age.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        add(age);
+        
+        tfage=new JTextField();
+        tfage.setBounds(200,80,150,30);
+        add(tfage);
+        
+        JLabel gender=new JLabel("GENDER");
+        gender.setBounds(60,130,120,30);
+        gender.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        add(gender);
+        
+        male=new JRadioButton(" M");
+        male.setBounds(200,130,50,30);
+        male.setFont(new Font("Tohoma", Font.PLAIN, 15));
+        male.setBackground(Color.gray);
+        add(male);
+        
+        female=new JRadioButton(" F");
+        female.setBounds(280,130,50,30);
+        female.setFont(new Font("Tohoma", Font.PLAIN, 15));
+        female.setBackground(Color.magenta);
+        add(female);
+        
+        ButtonGroup bg=new ButtonGroup();
+        bg.add(male);
+        bg.add(female);
+        
+        JLabel job=new JLabel("JOB");
+        job.setBounds(60,180,120,30);
+        job.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        add(job);
+        
+        String[] str={"Select", "Front Desk Clerks", "House Keeping", "Kitchen Staff", "Room Service", "Chefs", "Waiter/Waitress", "Manager", "Accountant"};
+        cjob=new JComboBox(str);
+        cjob.setBounds(200,180,150,30);
+        cjob.setBackground(Color.white);
+        add(cjob);
+        
+        JLabel salary=new JLabel("SALARY");
+        salary.setBounds(60,230,120,30);
+        salary.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        add(salary);
+        
+        tfsalary=new JTextField();
+        tfsalary.setBounds(200,230,150,30);
+        add(tfsalary);
+        
+        JLabel phone=new JLabel("PHONE NO.");
+        phone.setBounds(60,280,120,30);
+        phone.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        add(phone);
+        
+        tfphone=new JTextField();
+        tfphone.setBounds(200,280,150,30);
+        add(tfphone);
+        
+        JLabel mail=new JLabel("EMAIL");
+        mail.setBounds(60,330,120,30);
+        mail.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        add(mail);
+        
+        tfmail=new JTextField();
+        tfmail.setBounds(200,330,150,30);
+        add(tfmail);
+        
+        JLabel adhar=new JLabel("ADHAR NO.");
+        adhar.setBounds(60,380,120,30);
+        adhar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        add(adhar);
+        
+        tfadhar=new JTextField();
+        tfadhar.setBounds(200,380,150,30);
+        add(tfadhar);
+        
+        submit=new JButton("SUBMIT");
+        submit.setForeground(Color.white);
+        submit.setForeground(Color.blue);
+        submit.setBounds(60,430,140,30);
+        submit.addActionListener(this);
+        add(submit);
+        
+        back=new JButton("Back");
+        back.setForeground(Color.white);
+        back.setForeground(Color.blue);
+        back.setBounds(210,430,140,30);
+        back.addActionListener(this);
+        add(back);
+                        
+        //ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("icons/tenth.jpg"));
+        ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("proj/10.png"));
+        Image i2=i1.getImage().getScaledInstance(450, 450, Image.SCALE_DEFAULT);
+        ImageIcon i3=new ImageIcon(i2);
+        JLabel image=new JLabel(i3);
+        image.setBounds(380,30,450,450);
+        add(image);
+        
+        
+        
+        
+        
+        
+        setVisible(true);
+}
+    
+    public static void main(String[] args){
+        new AddEmployee();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==submit){
+            String sname=tfname.getText();
+            String sage=tfage.getText();
+            String sgender="";
+
+            if(male.isSelected()){
+                sgender="Male";
+            }
+            else if(female.isSelected()){
+                sgender="Male";
+            }
+
+            String sjob=(String)cjob.getSelectedItem();
+            String ssalary=tfsalary.getText();
+            String sphone=tfphone.getText();
+            String smail=tfmail.getText();
+            String sadhar=tfadhar.getText();
+
+            if(sname.equals("")){
+                JOptionPane.showMessageDialog(null,"Name Should Not Be Empty");
+            }
+            else if(sage.equals("")){
+                JOptionPane.showMessageDialog(null,"Age Should Not Be Empty");
+            }
+            else if(sgender.equals("")){
+                JOptionPane.showMessageDialog(null,"Select Gender");
+            }
+            else if(sjob.equals("Select")){
+                JOptionPane.showMessageDialog(null,"Select Job Profile");
+            }
+            else if(ssalary.equals("")){
+                JOptionPane.showMessageDialog(null,"Salary Should Not Be Empty");
+            }
+            else if(sphone.equals("")){
+                JOptionPane.showMessageDialog(null,"Phone Should Not Be Empty");
+            }
+            else if(smail.equals("")){
+                JOptionPane.showMessageDialog(null,"Mail Should Not Be Empty");
+            }
+            else if(sadhar.equals("")){
+                JOptionPane.showMessageDialog(null,"Adhar NO. Should Not Be Empty");
+            }
+
+            else{
+            try{
+                    Conn con=new Conn();
+
+                    //String query="select * from login where username='"+usr+"'ans password'"+psw+"'";
+                    //ResultSet rs=c.s.executeQuery(query);
+                    String q="insert into employee(name, age, gender, job, salary, phone, mail, adhar) values('"+sname+"', '"+sage+"', '"+sgender+"', '"+sjob+"', '"+ssalary+"', '"+sphone+"', '"+smail+"', '"+sadhar+"')";
+                    con.st.executeUpdate(q);
+                    JOptionPane.showMessageDialog(null,"Data Saved Successfully");
+                    setVisible(false);
+                    new AddEmployee();
+                }
+                catch (Exception ee){
+                    JOptionPane.showMessageDialog(null,ee.toString());
+                }
+            }
+        }
+        else if(e.getSource()==back){
+            setVisible(false);
+        }
+    }
+}
