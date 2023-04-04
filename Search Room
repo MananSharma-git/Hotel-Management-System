@@ -1,0 +1,138 @@
+
+package hotelmanagement;
+
+/**
+ *
+ * @author Manan
+ */
+import java.awt.*;
+
+import java.sql.*;
+import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import net.proteanit.sql.DbUtils;
+
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class SearchRoom extends JFrame implements ActionListener {
+	PreparedStatement pst = null;
+	private JPanel contentPane;
+	private JTextField txt_Type;
+	private JTable table;
+        Choice c1;
+        JButton btnExit,btnSearch;
+        JCheckBox checkRoom;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+            new SearchRoom();
+        }
+	
+	SearchRoom() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(530, 200, 700, 500);
+		setLayout(null);
+
+		JLabel lblSearchForRoom = new JLabel("Search For Room");
+		lblSearchForRoom.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblSearchForRoom.setBounds(250, 11, 186, 31);
+		add(lblSearchForRoom);
+
+		JLabel lblRoomAvailable = new JLabel("Room Bed Type:");
+		lblRoomAvailable.setBounds(50, 73, 96, 14);
+		add(lblRoomAvailable);
+
+		JLabel lblRoomType = new JLabel("Room Number");
+		lblRoomType.setBounds(23, 162, 96, 14);
+		add(lblRoomType);
+
+		JLabel lblRoomAvailable_1 = new JLabel("Availability");
+		lblRoomAvailable_1.setBounds(175, 162, 120, 14);
+		add(lblRoomAvailable_1);
+
+		JLabel lblPrice_1 = new JLabel("Price");
+		lblPrice_1.setBounds(458, 162, 46, 14);
+		add(lblPrice_1);
+
+                JLabel l1 = new JLabel("Bed Type");
+		l1.setBounds(580, 162, 96, 14);
+		add(l1);
+
+		checkRoom = new JCheckBox("Only display Available");
+		checkRoom.setBounds(400, 69, 205, 23);
+                checkRoom.setBackground(Color.WHITE);
+		add(checkRoom);
+
+
+                c1 = new Choice();
+                c1.add("Single Bed");
+                c1.add("Double Bed");
+                c1.setBounds(153, 70, 120, 20);
+		add(c1);
+
+		btnSearch = new JButton("Search");
+		btnSearch.setBounds(200, 400, 120, 30);
+                btnSearch.setBackground(Color.blue);
+                btnSearch.setForeground(Color.WHITE);
+                btnSearch.addActionListener(this);
+		add(btnSearch);
+
+                btnExit = new JButton("Back");
+		btnExit.setBounds(380, 400, 120, 30);
+                btnExit.setBackground(Color.blue);
+                btnExit.setForeground(Color.WHITE);
+                btnExit.addActionListener(this);
+		add(btnExit);
+
+		table = new JTable();
+		table.setBounds(0, 187, 700, 300);
+		add(table);
+
+		JLabel lblCleanStatus = new JLabel("Clean Status");
+		lblCleanStatus.setBounds(306, 162, 96, 14);
+		add(lblCleanStatus);
+
+                setBackground(Color.WHITE);
+                setVisible(true);
+                //btnExit.setVisible(true);
+	}
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==btnExit){
+            setVisible(false);
+            new Reception();
+        }
+        else if(e.getSource()==btnSearch){
+            String SQL = "select * from Room where type = '"+c1.getSelectedItem()+"'";
+            String SQL2 = "select * from Room where available = 'Available' AND type = '"+c1.getSelectedItem()+"'";
+			try{			
+                                Conn c = new Conn();
+				ResultSet rs;
+                                
+                                if(checkRoom.isSelected()){
+                                    rs = c.st.executeQuery(SQL2);
+                                    //table.setModel(DbUtils.resultSetToTableModel(rs));
+                                }
+                                else{	
+					rs = c.st.executeQuery(SQL);
+					//table.setModel(DbUtils.resultSetToTableModel(rs));
+				}
+                                table.setModel(DbUtils.resultSetToTableModel(rs));
+
+
+			}catch (SQLException ss)
+			{
+				ss.printStackTrace();
+                        }   
+        }
+    }
+        
+}
