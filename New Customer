@@ -1,0 +1,232 @@
+ hotelmanagement;
+
+/**
+ *
+ * @author Manan
+ */
+import java.awt.BorderLayout;
+import java.awt.*;
+import java.awt.EventQueue;
+import java.util.Date;
+
+import javax.swing.border.EmptyBorder;
+
+import java.awt.Font;
+import java.awt.Image;
+import java.sql.*;	
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class NewCustomer extends JFrame implements ActionListener{
+	private JTextField t1,t2,t3,t4,t5,t6;
+        JComboBox comboBox;
+        JRadioButton r1,r2;
+        Choice c1;
+        JLabel CheckInStatus;
+        JButton btnExit,btnAdd;
+	
+	public static void main(String[] args) {
+            new NewCustomer();
+	}
+
+	public NewCustomer() {
+
+                setBounds(530, 200, 850, 550);
+                setLayout(null);
+
+                //ImageIcon i1  = new ImageIcon(ClassLoader.getSystemResource("icons/fifth.png"));
+                ImageIcon i1  = new ImageIcon(ClassLoader.getSystemResource("proj/5.png"));
+                Image i3 = i1.getImage().getScaledInstance(300, 400,Image.SCALE_DEFAULT);
+                ImageIcon i2 = new ImageIcon(i3);
+                JLabel l1 = new JLabel(i2);
+                l1.setBounds(480,10,300,500);
+                add(l1);
+
+		JLabel lblName = new JLabel("NEW CUSTOMER FORM");
+		lblName.setFont(new Font("Yu Mincho", Font.PLAIN, 20));
+		lblName.setBounds(118, 11, 260, 53);
+		add(lblName);
+
+                JLabel lblId = new JLabel("ID :");
+		lblId.setBounds(35, 76, 200, 14);
+		add(lblId);
+
+                comboBox = new JComboBox(new String[] {"Select", "Passport", "Aadhar Card", "Voter Id", "Driving license"});
+		comboBox.setBounds(271, 73, 170, 20);
+		add(comboBox);
+
+                JLabel l2 = new JLabel("Number :");
+		l2.setBounds(35, 111, 170, 14);
+		add(l2);
+
+                t1 = new JTextField();
+		t1.setBounds(271, 111, 170, 20);
+		add(t1);
+		t1.setColumns(10);
+
+		JLabel lblName_1 = new JLabel("Name :");
+		lblName_1.setBounds(35, 151, 170, 14);
+		add(lblName_1);
+
+		t2 = new JTextField();
+		t2.setBounds(271, 151, 170, 20);
+		add(t2);
+		t2.setColumns(10);
+
+
+		JLabel lblGender = new JLabel("Gender :");
+		lblGender.setBounds(35, 191, 200, 14);
+		add(lblGender);
+
+                r1 = new JRadioButton("Male");
+                r1.setFont(new Font("Raleway", Font.BOLD, 14));
+                r1.setBackground(Color.WHITE);
+                r1.setBounds(271, 191, 80, 12);
+                add(r1);
+
+                r2 = new JRadioButton("Female");
+                r2.setFont(new Font("Raleway", Font.BOLD, 14));
+                r2.setBackground(Color.WHITE);
+                r2.setBounds(350, 191, 100, 12);
+		add(r2);
+                
+                ButtonGroup bg=new ButtonGroup();
+                bg.add(r1);
+                bg.add(r2);
+
+		JLabel lblCountry = new JLabel("Country :");
+		lblCountry.setBounds(35, 231, 170, 14);
+		add(lblCountry);
+
+		JLabel lblReserveRoomNumber = new JLabel("Allocated Room Number :");
+		lblReserveRoomNumber.setBounds(35, 274, 170, 14);
+		add(lblReserveRoomNumber);
+
+                c1 = new Choice();
+                try{
+                    Conn c = new Conn();
+                    ResultSet rs = c.st.executeQuery("select * from room");
+                    while(rs.next()){
+                        c1.add(rs.getString("room"));    
+                    }
+                }catch(Exception e){ }
+                c1.setBounds(271, 274, 170, 20);
+		add(c1);
+
+		JLabel lblCheckInStatus = new JLabel("Checked-In :");
+		lblCheckInStatus.setBounds(35, 316, 170, 14);
+		add(lblCheckInStatus);
+                
+                Date date = new Date();
+                
+                CheckInStatus = new JLabel("" + date);
+		CheckInStatus.setBounds(271, 316, 170, 20);
+		add(CheckInStatus);
+                
+		JLabel lblDeposite = new JLabel("Deposit :");
+		lblDeposite.setBounds(35, 359, 170, 14);
+		add(lblDeposite);
+
+		t3 = new JTextField();
+		t3.setBounds(271, 231, 170, 20);
+		add(t3);
+		t3.setColumns(10);
+
+                t6 = new JTextField();
+		t6.setBounds(271, 359, 170, 20);
+		add(t6);
+		t6.setColumns(10);
+
+		btnAdd = new JButton("Add");
+		btnAdd.setBounds(100, 430, 120, 30);
+                btnAdd.setBackground(Color.BLACK);
+                btnAdd.setForeground(Color.WHITE);
+                btnAdd.addActionListener(this);
+		add(btnAdd);
+
+		btnExit = new JButton("Back");
+		btnExit.setBounds(260, 430, 120, 30);
+                btnExit.setBackground(Color.BLACK);
+                btnExit.setForeground(Color.WHITE);
+                btnExit.addActionListener(this);
+		add(btnExit);
+
+                getContentPane().setBackground(Color.WHITE);
+                setVisible(true);
+	}
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btnExit){
+            setVisible(false);
+            new Reception();
+        }
+        else if(e.getSource()== btnAdd){
+            String radio = "";
+            if(r1.isSelected()){ 
+                radio = "Male";
+            }
+            else if(r2.isSelected()){ 
+                radio = "Female";
+            }
+
+            String s6 = c1.getSelectedItem();
+            //String s6 = "asd";
+
+                String s1 = (String)comboBox.getSelectedItem(); 
+                String s2 =  t1.getText();
+                String s3 =  t2.getText();
+                String s4 =  radio;
+                String s5 =  t3.getText();
+                String s7 =  CheckInStatus.getText();
+                String s8 =  t6.getText();
+
+                if(s1.equals("Select")){
+                    JOptionPane.showMessageDialog(null, "Select ID");
+                }
+                else if(s2.equals("")){
+                    JOptionPane.showMessageDialog(null, "Number Shuold Be Filled");
+                }
+                else if(s3.equals("")){
+                    JOptionPane.showMessageDialog(null, "Name Shuold Be Filled");
+                }
+                else if(s4.equals("")){
+                    JOptionPane.showMessageDialog(null, "Select Gender");
+                }
+                else if(s5.equals("")){
+                    JOptionPane.showMessageDialog(null, "Country Shuold Be Filled");
+                }
+                else if(s7.equals("")){
+                    JOptionPane.showMessageDialog(null, "Allocated Room No. Shuold Be Filled");
+                }
+                else if(s8.equals("")){
+                    JOptionPane.showMessageDialog(null, "Deposit Shuold Be Filled");
+                }
+                else{
+                    try{
+                        Conn c = new Conn();
+                        
+                        String q1 = "insert into customer(id, number, name, gender, country, room1, time, deposite) values('"+s1+"', '"+s2+"', '"+s3+"', '"+s4+"', '"+s5+"', '"+s6+"', '"+s7+"', '"+s8+"')";
+                        String q2 = "update room set available = 'Occupied' where room = "+s6;
+                        c.st.executeUpdate(q1);
+                        c.st.executeUpdate(q2);
+
+                        JOptionPane.showMessageDialog(null, "Data Inserted Successfully");
+
+                        setVisible(false);
+                        new NewCustomer();
+                    }
+                    
+                    catch(SQLException e1){
+                        System.out.println(e1.getMessage());
+                    }
+                    catch(Exception s){
+                        JOptionPane.showMessageDialog(null, "Please enter a valid Number");
+                    }
+
+                }
+                            
+        }
+    }
+}
