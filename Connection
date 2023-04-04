@@ -1,0 +1,26 @@
+
+package hotelmanagement;
+
+import java.sql.*;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Manan
+ */
+public class Conn {
+    
+    Connection con;   //step 2-creating connection.
+    Statement st;
+    
+    public Conn(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");   //step 1- Register the driver class.
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/hotelmanagement","root","MYSQL");     //step 2-creating connection.
+            st=con.createStatement();  //step 3-creating statement  -> step 4 creating mysql database on mysql.
+        }
+        catch(Exception ee) {
+            JOptionPane.showMessageDialog(null,ee.toString());
+        }
+    }
+}
