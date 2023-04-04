@@ -1,0 +1,155 @@
+
+package hotelmanagement;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+
+/**
+ *
+ * @author Manan
+ */
+public class login extends JFrame implements ActionListener {
+    
+    JButton cancel, login, shpass;
+    JTextField usern, show;
+    JPasswordField passw;
+    boolean mark;
+    
+    login(){
+        getContentPane().setBackground(Color.white);
+        setBounds(500,200,600,300);
+        setLayout(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JLabel user=new JLabel("User Name:");
+        user.setBounds(40,30,100,30);
+        add(user);
+        
+        usern=new JTextField();
+        usern.setBounds(40,60,150,30);
+        add(usern);
+        
+        
+        JLabel pass=new JLabel("Password:");
+        pass.setBounds(40,100,100,30);
+        add(pass);
+        
+        passw=new JPasswordField();
+        passw.setBounds(40,130,150,30);
+        add(passw);
+        
+        show=new JTextField();
+        show.setBounds(40,130,150,30);
+        show.setVisible(false);
+        add(show);
+        
+        login=new JButton("Login");
+        login.setBounds(40,170,60,25);
+        login.setBackground(Color.blue);
+        login.setForeground(Color.white);
+        login.setFont(new Font("serif", Font.BOLD, 10));
+        login.addActionListener(this);
+        add(login);
+        
+        cancel=new JButton("Cancel");
+        cancel.setBounds(110,170,65,25);
+        cancel.setBackground(Color.blue);
+        cancel.setForeground(Color.white);
+        cancel.setFont(new Font("serif", Font.BOLD, 10));
+        cancel.addActionListener(this);
+        add(cancel);
+        
+        shpass=new JButton("Show Password");
+        shpass.setBounds(200,130,100,28);
+        shpass.setBackground(Color.white);
+        shpass.setForeground(Color.black);
+        shpass.setFont(new Font("serif", Font.BOLD, 8));
+        shpass.addActionListener(this);
+        add(shpass);
+        
+        ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("proj/2.jpg"));
+        /*ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("icons/second.jpg"));
+        Image i2=i1.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT);
+        ImageIcon i3=new ImageIcon(i2);
+        JLabel image=new JLabel(i3);
+        image.setBounds(250,-20,300,300);*/
+        JLabel image=new JLabel(i1);
+        image.setBounds(280,30,300,180);
+        
+        add(image);
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+    
+    public static void main(String[] args){
+        new login();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        if(ae.getSource() == shpass){
+            if(!mark){
+                passw.setVisible(false);
+                show.setVisible(true);
+                mark=true;
+            }
+            else{
+                passw.setVisible(true);
+                show.setVisible(false);
+                mark=false;
+            }
+        }
+        
+        if(ae.getSource() == login){
+            String usr=usern.getText();
+            String psw=passw.getText();
+            
+            if(usr.equals("john") && psw.equals("12345")){
+                    setVisible(false);
+                    new DashBoard();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Invalid Usernamer or Password");
+            }
+            
+            /*try{
+                Conn c=new Conn();
+                
+                String query="select * from login where username='"+usr+"'ans password'"+psw+"'";
+                ResultSet rs=c.s.executeQuery(query);
+                
+                if(rs.next()){
+                    setVisible(false);
+                    new DashBoard();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Invalid Usernamer or Password");
+                    setVisible(false);
+                }
+                
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }*/
+            
+            //setVisible(false);
+            //new DashBoard();
+           
+        }
+        else if(ae.getSource() == cancel){
+            setVisible(false);
+        }
+        
+    }
+}
