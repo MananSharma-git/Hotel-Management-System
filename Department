@@ -1,0 +1,87 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package hotelmanagement;
+
+/**
+ *
+ * @author Manan
+ */
+import java.awt.BorderLayout;
+import java.awt.*;
+
+import javax.swing.JFrame;
+
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.JTable;
+import java.sql.*;	
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Department extends JFrame implements ActionListener{
+	
+	private JTable table;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+            new Department();
+	}
+
+	/**
+	 * Create the frame.
+	 * @throws SQLException 
+	 */
+	Department() {
+		//conn = Javaconnect.getDBConnection();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(600, 200, 700, 500);
+		setLayout(null);
+
+		table = new JTable();
+		table.setBounds(0, 40, 700, 350);
+		add(table);
+
+		try{
+                    Conn c = new Conn();
+                    
+                    String displayCustomersql = "select * from department";
+                    ResultSet rs = c.st.executeQuery(displayCustomersql);
+                    table.setModel(DbUtils.resultSetToTableModel(rs));
+                }
+                catch (Exception e1){
+                        e1.printStackTrace();
+                }
+
+		JButton btnNewButton_1 = new JButton("Back");
+		btnNewButton_1.setBounds(300, 410, 120, 30);
+                btnNewButton_1.setBackground(Color.BLACK);
+                btnNewButton_1.setForeground(Color.WHITE);
+                btnNewButton_1.addActionListener(this);
+		add(btnNewButton_1);
+
+		lblNewLabel = new JLabel("Department");
+		lblNewLabel.setBounds(145, 11, 105, 14);
+		add(lblNewLabel);
+
+		lblNewLabel_1 = new JLabel("Budget");
+		lblNewLabel_1.setBounds(431, 11, 75, 14);
+		add(lblNewLabel_1);
+
+                setBackground(Color.WHITE);
+                setVisible(true);
+	}
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        setVisible(false);
+        new Reception();
+    }
+
+}
